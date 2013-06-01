@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Leaf Game</title>
+  <script src="lib/crafty.js"></script>
+  <script src="src/game.js"></script>
+  <script src="src/components.js"></script>
+  <script src="src/scenes.js"></script>
+  <script>
+    window.addEventListener('load', Game.start);
+  </script>
+  <style type="text/css" media="screen">
+    body {
+      background: black;
+      text-align: center;
+      color: #DDD;
+      font-family: Arial;
+    }
+ 
+    .controls {
+      color: #BBB;
+    }
+ 
+    #cr-stage { margin: 20px auto 0; }
+  </style>
+</head>
+<body>
+  <h2>The Leaf Game</h2>
+ 
+  <p>Cut the leaves!</p>
+ 
+  <p class="controls"></p>
+ 
+  <div id="cr-stage"></div>
+</body>
+</html>
