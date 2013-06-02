@@ -22,36 +22,67 @@ var Game = {
       _xspeed: 0,
       _yspeed: 0,
 
+      flow: function(x) {
+        return this._amp * Math.cos(x/this._freq);
+      },
       init: function() {
         var index = Crafty.math.randomInt(0, 5);
 
         this.addComponent("spr_leaf"+index);
-        this.w = 128;
-        this.h = 128;
+        this.w = 110;
+        this.h = 110;
         this.x = 0;
-        this.y = Crafty.math.randomInt(0, Crafty.viewport.height);
+        this.y = Crafty.math.randomInt(0, Crafty.viewport.height - this.h);
         this.z = 1;
         this.origin("center");
         this.pointValue = (index+1) * 10;
         this._xspeed = Crafty.math.randomInt(2, 4);
         this._yspeed = Crafty.math.randomInt(0, 2);
-        this._amp = Crafty.math.randomInt(2, 6);
-        this._freq = Crafty.math.randomInt(50, 80);
+        this._amp = Crafty.math.randomNumber(1.5, 5);
+        this._freq = Crafty.math.randomInt(40, 60);
         this._lastRotChange = Date.now();
         this._rotDir = 1;
-        this._rotSpeed = Crafty.math.randomInt(1,7);
+        this._rotSpeed = Crafty.math.randomInt(1,5);
 
         // Move away from top/bottom edges if amplitude will keep the leaf off the screen most of the time
-        if (this.y < 20) {
-          this.y = Math.max(this._amp*2, this.y);
-        } else if (this.y > Game.height - 20) {
-          this.y = Math.min(this._amp*2 - Game.height, this.y);
+        /*
+        if (this.y < this.h) {
+          var goesTooHigh = false;
+          var flowedY = this.y;
+          for (var i=0; i<Crafty.viewport.width; i++) {
+            flowedY += this.flow(i);
+            if (flowedY < -(this.h/2)) {
+              goesTooHigh = true;
+              break;
+            }
+          }
+
+          if (goesTooHigh) {
+            this.y += this.h;
+            console.log("adjusted for height (moved down).");
+          }
+        } else if (this.y > Game.height - this.h) {
+          var goesTooLow = false;
+          var flowedY = this.y;
+          for (var i=0; i<Crafty.viewport.width; i++) {
+            flowedY += this.flow(i);
+            if (flowedY > Crafty.viewport.height) {
+              goesTooLow = true;
+              break;
+            }
+          }
+
+          if (goesTooLow) {
+            this.y -= this.h;
+            console.log("adjusted for height (moved up).");
+          }
         }
+        */
 
         this.bind("EnterFrame", function() {
           this.x += this._xspeed;
           if (!this.hit) {
-            this.y += this._amp * Math.cos(this.x/this._freq);
+            this.y += this.flow(this.x);
           }
 
           var rotAmt = this._rotSpeed;
@@ -70,10 +101,6 @@ var Game = {
 
           if (this._x > Crafty.viewport.width || (this._y > Crafty.viewport.height && this.hit)) {
             this.destroy();
-            if(!this.hit) {
-              score -= this.pointValue;
-              scoreEnt.text("Score: "+score);
-            }
           }
         });
 
