@@ -2,7 +2,9 @@ var gravityConst = 0.2;
 var gravityConstHit = 2;
 var Game = {
   start: function() {
-    Crafty.init(550, 440);
+    this.width = 800;
+    this.height = 550;
+    Crafty.init(this.width, this.height);
   
   	Crafty.sprite(128, "assets/128xleaves.png", {
   		spr_leaf0: [0,0],
@@ -24,22 +26,28 @@ var Game = {
   			var index = Crafty.math.randomInt(0, 5);
   
         this.addComponent("spr_leaf"+index);
-        this.w = 64;
-        this.h = 64;
+        this.w = 128;
+        this.h = 128;
+				this.x = 0;
   			this.y = Crafty.math.randomInt(0, Crafty.viewport.height);
   			this.z = 1;
         this.origin("center");
-        // this.gravityConst(0);
-  
-				this.x = 0;
+        this.pointValue = (index+1) * 10;
 				this._xspeed = Crafty.math.randomInt(2, 4);
         this._yspeed = Crafty.math.randomInt(0, 2);
-        this._amp = Crafty.math.randomInt(3, 6);
+        this._amp = Crafty.math.randomInt(2, 6);
         this._freq = Crafty.math.randomInt(50, 80);
         this._lastRotChange = Date.now();
         this._rotDir = 1;
         this._rotSpeed = Crafty.math.randomInt(1,7);
   
+        // Move away from top/bottom edges if amplitude will keep the leaf off the screen most of the time
+        if (this.y < 20) {
+          this.y = Math.max(this._amp*2, this.y);
+        } else if (this.y > Game.height - 20) {
+          this.y = Math.min(this._amp*2 - Game.height, this.y);
+        }
+        
   			this.bind("EnterFrame", function() {
   				this.x += this._xspeed;
           if (!this.hit) {
@@ -63,7 +71,7 @@ var Game = {
   				if (this._x > Crafty.viewport.width || (this._y > Crafty.viewport.height && this.hit)) {
   					this.destroy();
   					if(!this.hit) {
-  						score -= (index+1) * 10;
+  						score -= this.pointValue;
   						scoreEnt.text("Score: "+score);
   					}
   				}
@@ -75,7 +83,7 @@ var Game = {
           this.addComponent("Gravity").gravity();
           this.gravityConst(gravityConstHit);
           this._rotSpeed *= -14/this._rotSpeed;
-  				score += (index+1) * 10;
+  				score += this.pointValue;
   				scoreEnt.text("Score: "+score);
   
   				this.unbind("MouseOver");
