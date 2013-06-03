@@ -7,19 +7,19 @@ Crafty.scene("Loading", function() {
       .css($text_css);
 
     Crafty.load(['assets/192-leaves.png'], function() {
-      Crafty.sprite(192, "assets/192-leaves.png", {
-        spr_leaf0: [0, 0],
-        spr_leaf_left0: [0, 0, 96, 192],
-        spr_leaf_right0: [96, 0, 96, 192],
-        spr_leaf1: [0, 1],
-        spr_leaf_left1: [0, 192, 96, 192],
-        spr_leaf_right1: [96, 192, 96, 192],
-        spr_leaf2: [0,2],
-        spr_leaf_left2: [0, 384, 96, 192],
-        spr_leaf_right2: [96, 384, 96, 192],
-        spr_leaf3: [0,3],
-        spr_leaf_left2: [0, 576, 96, 192],
-        spr_leaf_right2: [96, 576, 96, 192]
+      Crafty.sprite(96, "assets/192-leaves.png", {
+        spr_leaf0: [0, 0, 2, 2],
+        spr_leaf_left0: [0, 0, 1, 2],
+        spr_leaf_right0: [1, 0, 1, 2],
+        spr_leaf1: [0, 2, 2, 2],
+        spr_leaf_left1: [0, 2, 1, 2],
+        spr_leaf_right1: [1, 2, 1, 2],
+        spr_leaf2: [0, 4, 2, 2],
+        spr_leaf_left2: [0, 4, 1, 2],
+        spr_leaf_right2: [1, 4, 1, 2],
+        spr_leaf3: [0, 6, 2, 2],
+        spr_leaf_left3: [0, 6, 1, 2],
+        spr_leaf_right3: [1, 6, 1, 2]
       });
 
       Crafty.scene("Game");
@@ -31,12 +31,10 @@ Crafty.scene("Game", function() {
     Game.score = 0;
 
    Crafty.e().bind("EnterFrame", function(e) {
-     var sparsity = Crafty.math.randomInt(10, 50);
+     var sparsity = Crafty.math.randomInt(10, 40);
      if (e.frame % sparsity == 0) {
        var leaf = Crafty.e("2D, Canvas, Leaf, Mouse");
        leaf.randomize();
-       leaf.bind("EnterFrame", leaf.onEnterFrame);
-       leaf.bind("MouseOver", leaf.onMouseOver);
      }
    });
 });
