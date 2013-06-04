@@ -1,3 +1,15 @@
+Crafty.c("Scissors", {
+  init: function() {
+    this.requires("2D, Mouse, Canvas, Image").image("assets/300-scissors.png");
+    this.bind("EnterFrame", this.enterFrame);
+  },
+  enterFrame: function() {
+    var mpos = Crafty.mousePos;
+    this.x = mpos.x - this.w/3;
+    this.y = mpos.y - this.h/2;
+  }
+});
+
 Crafty.c("Leaf", {
   xspeed: 0,
   yspeed: 0,

@@ -6,7 +6,7 @@ Crafty.scene("Loading", function() {
       .attr({ x: 0, y: Game.height/2 - 24, w: Game.width })
       .css($text_css);
 
-    Crafty.load(['assets/192-leaves.png'], function() {
+    Crafty.load(['assets/192-leaves.png', 'assets/scissors.png'], function() {
       Crafty.sprite(96, "assets/192-leaves.png", {
         spr_leaf0: [0, 0, 2, 2],
         spr_leaf_left0: [0, 0, 1, 2],
@@ -21,6 +21,10 @@ Crafty.scene("Loading", function() {
         spr_leaf_left3: [0, 6, 1, 2],
         spr_leaf_right3: [1, 6, 1, 2]
       });
+      
+      // Crafty.sprite(1, "assets/scissors.png", function() {
+      //   spr_scissors: [0, 0, 600, 332]
+      // });
 
       Crafty.scene("Game");
     });
@@ -30,6 +34,7 @@ Crafty.scene("Game", function() {
     Game.scoreEnt = Crafty.e("2D, DOM, Text").attr({x: 5, y: 5, w: Crafty.viewport.width, h: 50}).text("Score: 0"),
     Game.score = 0;
 
+   Crafty.e("Scissors");
    Crafty.e().bind("EnterFrame", function(e) {
      var sparsity = Crafty.math.randomInt(10, 40);
      if (e.frame % sparsity == 0) {
