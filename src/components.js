@@ -48,8 +48,8 @@ Crafty.c("Leaf", {
     this.hit = true;
     this.seed = source.seed;
     this.addComponent("spr_leaf_"+side+this.seed);
-    this.w = source.w/2;
-    this.h = source.h;
+    this.w = source._w/2;
+    this.h = source._h;
     this.y = source.y;
     var xspeed = Crafty.math.randomInt(0, 12);
     if (side === 'right') {
